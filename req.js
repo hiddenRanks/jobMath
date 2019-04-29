@@ -1,13 +1,14 @@
 const request = require('request');
 const cheerio = require('cheerio'); //서버에서 jQuery와 비슷하게 사용할수 있게됨
+const iconv = require('iconv-lite');
+const charset = require('charset');
 
 const options = {
     url: 'http://www.y-y.hs.kr/lunch.view?date=20190429',
     headers: {
-        'User-Agent': 'Mozilla/5.0',
-        'Content-Type': 'text/html; charset=utf-8'
+        'User-Agent': 'Mozilla/5.0'
     },
-    encoding: 'utf8'
+    encoding:null   //별도의 인코딩을 하지 않게 한다.
 }
 
 let url = "/www.y-y.hs.kr/lunch.view?date=20190429"; 
@@ -17,15 +18,10 @@ request(options, function(err, res, body){
         return;
     }
 
-    console.log(body);
-    $ = cheerio.load(body);
+    const enc = charset(res.headers, body); //사이트의 인코딩을 알아냄
+    const result = iconv.decode(body, enc);
 
-    //let list = $(".ah_roll_area > .ah_l .ah_item .ah_k"); //naver 인기검색 순위
-    let list = $(".menuName > span");
-    // for(let i = 0; i < list.length; i++) {
-    //     let txt = $(list[i]).text();
-    //     console.log(txt);
-    // }
-    console.log(list);
-    console.log(list.text());
+    $ = cheerio.load(result);
+    let menu = $(".menuName > span");
+    console.log(menu.text());
 });
