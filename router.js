@@ -98,33 +98,33 @@ router.get('/datalab2', function(req, res) {
 
 router.post("/datalab2", function(req, res) {
     let data = [
-        { "groupName": req.body.name, "keywords": [] },
+        { "groupName": req.body.word, "keywords": [] }
     ];
 
     if(req.body.key == null) {
         //키워드를 안넣으면 넣은 제목이 키워드가 됨
-        data[1] = req.body.name;
+        data[0].keywords = req.body.word;
     }
     else if(req.body.key != null) {
         let keyWord = req.body.key.split(",");
-        console.log(keyWord.length);
+
         if(keyWord.length > 10) {
             //키워드가 10개 이상일시 제목이 키워드가 됨
-            keyWord = req.body.name;
+            keyWord = req.body.word;
         }
         else {
             for(let i = 0; i < keyWord.length; i++) {
-                data[1].push(keyWord[i]);
+                data[0].keywords[i] = keyWord[i];
             }
         }
     }
-    console.log(data);
 
-    datalab("2019-02-01", "2019-04-30", "week", data, function(result) {
+    datalab("2019-02-01", "2019-05-01", "week", data, function(result) {
         let colors = ["rgb(75, 192, 192)", "rgb(75, 141, 111)", "rgb(11, 123, 231)"];
         let gData = {"labels": [], "datasets": []};
 
         let r = result.results;
+        console.log(r);
         for(let i = 0; i < r.length; i++) {
             let item = {
                 "label":r[i].title, 
@@ -139,13 +139,12 @@ router.post("/datalab2", function(req, res) {
                 if(i == 0) {
                     let date = r[i].data[j].period;
                     let arr = date.split("-"); //-를 기점으로 다 짤라서 년도 / 월 / 일로 받아온다.
-                    gData.labels.push(arr[1] + arr[2]); //그중에서 월 / 일만 합쳐서 합체
+                    gData.labels.push(arr[1] + '/' + arr[2]); //그중에서 월 / 일만 합쳐서 합체
                 }
             }
 
             gData.datasets.push(item);
         }
-        console.log(gData);
 
         res.render('datalab2', {g:gData});
     });
