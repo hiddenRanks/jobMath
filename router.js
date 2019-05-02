@@ -129,7 +129,7 @@ router.post("/datalab2", function(req, res) {
             let item = {
                 "label":r[i].title, 
                 "borderColor":colors[i], 
-                "fill":false, 
+                "fill":false,
                 "lineTension":0.2, 
                 "data":[]
             };
