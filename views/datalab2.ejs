@@ -6,13 +6,17 @@
     <% include layout/nav %>
     <div class="container">
         <div class="row mt-4">
-            <h1>데이터 차트</h1>
+            <h1>검색어 비교하기</h1>
             <div class="col-10 offset-1">
                 <form class="form-inline" method="post">
                     <div class="form-group mx-sm-3 mb-2">
-                        <label for="word" class="sr-only">검색어</label>
-                        <input type="text" name="name" class="form-control" id="name" placeholder="검색어 입력"> &nbsp;
-                        <input type="text" name="key" class="form-control" id="key" placeholder="키워드 입력(10개까지)">
+                        <label for="word" class="sr-only">검색어1</label>
+                        <input type="text" name="searchOne" class="form-control" id="searchOne" placeholder="검색어 입력"> &nbsp;
+                        <input type="text" name="oneKey" class="form-control" id="oneKey" placeholder="키워드 입력(,로 구분)"> &nbsp;&nbsp;&nbsp;
+
+                        <label for="word" class="sr-only">검색어2</label>
+                        <input type="text" name="searchTwo" class="form-control" id="searchTwo" placeholder="검색어 입력"> &nbsp;
+                        <input type="text" name="twoKey" class="form-control" id="twoKey" placeholder="키워드 입력(,로 구분)">
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">검색하기</button>
                 </form>
